@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    <div class="btn-group" role="group">
+        <button type="button" id="zoomPhone" class="btn  btn-outline-secondary"><i class="bi bi-phone-fill"></i></button>
+        <button type="button" id="zoomLaptop" class="btn btn-outline-secondary"><i class="bi bi-laptop-fill"></i></button>
+    </div>
+</div>
+<div id="score"></div>
+
+<script>
+    const zoomPhoneBtn = document.getElementById("zoomPhone");
+    const zoomLaptopBtn = document.getElementById("zoomLaptop");
+    let zoomPhone = 0.5;
+    let zoomLaptop = 1.0;
+
+    zoomPhoneBtn.addEventListener("click", () => {
+        osmd.Zoom = zoomPhone;
+        osmd.render();
+    });
+
+    zoomLaptopBtn.addEventListener("click", () => {
+        osmd.Zoom = zoomLaptop;
+        osmd.render();
+    });
+
+
+    const osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("score");
+
+
+
+
+
+    async function loadPartition() {
+        const xmlResponse = await fetch('{{ score.get_xml_url }}');
+        const xmlText = await xmlResponse.text();
+
+        console.log(xmlText);
+        await osmd.load(xmlText);
+        osmd.setOptions({
+            drawTitle: true, 
+            drawSubtitle: false, 
+            drawComposer: false, 
+            drawPartNames: false,
+            drawCredits: false,
+            autoResize: false,
+            drawPartAbbreviations: false,
+            stretchLastSystemLine: true,
+            backend: "can",
+
+        });
+        osmd.Zoom = 0.5;
+        osmd.render();
+    }
+
+    loadPartition();
+</script>
+{% endblock content %}

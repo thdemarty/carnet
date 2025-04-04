@@ -1,0 +1,27 @@
+{% include 'index.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            <select class="form-select" name="instrument">
+                {% for instrument in instruments %}
+                <option value="{{ instrument.pk }}"
+                {% if selected_instrument.pk == instrument.pk %}selected{% endif %}
+                >{{ instrument }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-outline-secondary">Changer</button>
+        </div>
+    </form>
+   
+    <ul>
+        {% for piece in scores %}
+        <li><a href="{{  piece.get_absolute_url }}">{{ piece }}</a></li>
+        {% empty %}
+        <li>No piece available</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}
