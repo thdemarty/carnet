@@ -38,7 +38,10 @@ def list_pieces(request):
             "scores": Score.objects.filter(instrument=instrument),
         }
         response = render(request, "pieces/list.html", context)
-        response.set_cookie("instrument_slug", instrument.slug)
+
+        if instrument:
+            # Set the cookie for the default instrument
+            response.set_cookie("instrument_slug", instrument.slug)
         return response
 
 
