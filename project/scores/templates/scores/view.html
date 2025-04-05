@@ -1,11 +1,33 @@
 {% extends 'index.html' %}
 
 {% block content %}
+  
 <div class="container mt-3">
-    <div class="btn-group" role="group">
-        <button type="button" id="zoomPhone" class="btn  btn-outline-secondary"><i class="bi bi-phone-fill"></i></button>
-        <button type="button" id="zoomLaptop" class="btn btn-outline-secondary"><i class="bi bi-laptop-fill"></i></button>
+    <div class="d-flex justify-content-between">
+        <div class="btn-group" role="group">
+            <button type="button" id="zoomPhone" class="btn  btn-outline-secondary"><i class="bi bi-phone-fill"></i></button>
+            <button type="button" id="zoomLaptop" class="btn btn-outline-secondary"><i class="bi bi-laptop-fill"></i></button>
+        </div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#structModal"><i class="bi bi-file-earmark-music-fill"></i></button>
     </div>
+
+    <div class="modal fade" id="structModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Structure</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              {{ score.piece.comment|default:"Aucune structure spécifiée" }}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
 </div>
 <div id="score"></div>
 
