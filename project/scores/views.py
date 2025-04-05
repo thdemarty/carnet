@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from scores.models import Piece, Instrument, Score
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def list_pieces(request):
     if request.method == "POST":
         ### We want to change the instrument for the user
@@ -45,6 +47,7 @@ def list_pieces(request):
         return response
 
 
+@login_required
 def view_score(request, piece_pk, instrument_slug):
     score = get_object_or_404(
         Score, piece__uuid=piece_pk, instrument__slug=instrument_slug
@@ -53,12 +56,14 @@ def view_score(request, piece_pk, instrument_slug):
     return render(request, "scores/view.html", context)
 
 
+@login_required
 def view_piece(request, piece_pk):
     piece = Piece.objects.get(uuid=piece_pk)
     context = {"piece": piece}
     return render(request, "pieces/view.html", context)
 
 
+@login_required
 def score_xml(request, piece_pk, instrument_slug):
     score = get_object_or_404(
         Score, piece__uuid=piece_pk, instrument__slug=instrument_slug
