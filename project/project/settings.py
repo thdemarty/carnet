@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = "accounts.User"
 
 LOGIN_URL = "login"
-LOGIN_REDIRECT_URL = "scores:list_pieces"
+LOGIN_REDIRECT_URL = "scores:list"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
