@@ -11,9 +11,11 @@ def list_pieces(request):
         selected = request.POST.get("instrument", None)
         instrument = get_object_or_404(Instrument, pk=selected)
         context = {
-            "instruments": Instrument.objects.all(),
+            "instruments": Instrument.objects.all().order_by("name"),
             "selected_instrument": instrument,
-            "scores": Score.objects.filter(instrument=instrument),
+            "scores": Score.objects.filter(instrument=instrument).order_by(
+                "piece__name"
+            ),
         }
 
         response = render(request, "pieces/list.html", context)
@@ -25,9 +27,11 @@ def list_pieces(request):
     if instrument_slug:
         instrument = get_object_or_404(Instrument, slug=instrument_slug)
         context = {
-            "instruments": Instrument.objects.all(),
+            "instruments": Instrument.objects.all().order_by("name"),
             "selected_instrument": instrument,
-            "scores": Score.objects.filter(instrument=instrument),
+            "scores": Score.objects.filter(instrument=instrument).order_by(
+                "piece__name"
+            ),
         }
         response = render(request, "pieces/list.html", context)
         return response
@@ -35,9 +39,11 @@ def list_pieces(request):
         # Set default instrument
         instrument = Instrument.objects.first()
         context = {
-            "instruments": Instrument.objects.all(),
+            "instruments": Instrument.objects.all().order_by("name"),
             "selected_instrument": instrument,
-            "scores": Score.objects.filter(instrument=instrument),
+            "scores": Score.objects.filter(instrument=instrument).order_by(
+                "piece__name"
+            ),
         }
         response = render(request, "pieces/list.html", context)
 
