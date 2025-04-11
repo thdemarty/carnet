@@ -14,7 +14,7 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'scores:list' %}">Morceaux</a>
                 </li>
-                {% if perms.scores.add_scores %}
+                {% if perms.scores.add_score %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'scores:add' %}">Ajouter</a>
                 </li>
