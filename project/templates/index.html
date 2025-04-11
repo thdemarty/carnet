@@ -29,10 +29,10 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         {% if user.is_staff %}
                         <li><a class="dropdown-item" href="{% url 'admin:index' %}">admin</a></li>
-                        {% endif %}
                         <li>
                             <hr class="dropdown-divider">
                         </li>
+                        {% endif %}
                         <li>
                             <form method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}
