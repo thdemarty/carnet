@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from scores.models import Piece, Instrument, Score
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 
 
 @login_required
@@ -77,3 +77,29 @@ def score_xml(request, piece_pk, instrument_slug):
     with open(score.score.path, "r") as f:
         response = HttpResponse(f.read(), content_type="application/xml")
     return response
+
+
+@login_required
+@permission_required("scores.add_score", raise_exception=True)
+def add_piece(request):
+    if request.method == "POST":
+        piece = Piece()
+        piece.name = request.POST.get("title")
+        piece.description = request.POST.get("description", "")
+        piece.save()
+
+        for instrument_file in request.FILES.keys():
+            instrument_slug = instrument_file.split("_")[0]
+            instrument = get_object_or_404(Instrument, slug=instrument_slug)
+            score = Score()
+            score.piece = piece
+            score.instrument = instrument
+            score.score = request.FILES[instrument_file]
+            score.save()
+
+        return redirect("scores:list")
+
+    context = {
+        "instruments": Instrument.objects.all().order_by("name"),
+    }
+    return render(request, "pieces/add.html", context)

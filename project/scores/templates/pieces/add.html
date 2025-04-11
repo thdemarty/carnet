@@ -1,0 +1,56 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="title">Titre du morceau</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="" required>
+        </div>
+
+        <!-- Textarea -->
+         <div class="mb-3">
+            <label for="description">Description / Structure</label>
+            <textarea name="description" id="description" rows="1" class="form-control"></textarea>
+         </div>
+
+        
+        <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+            {% for instrument in instruments %}
+            <div class="col">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ instrument }}</h5>
+                        <input type="file" name="{{ instrument.slug }}_file" />
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Enregistrer</button>
+    </form>
+
+</div>
+<script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
+<link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
+<script type="module">
+        // If you are using JavaScript/ECMAScript modules:
+    import Dropzone from "dropzone";
+
+    // If you are using CommonJS modules:
+    const { Dropzone } = require("dropzone");
+
+    // If you are using an older version than Dropzone 6.0.0,
+    // then you need to disabled the autoDiscover behaviour here:
+    Dropzone.autoDiscover = false;
+
+    let myDropzone = new Dropzone("#myDropzone");
+    myDropzone.on("addedfile", file => {
+    console.log(`File added: ${file.name}`);
+});
+
+
+
+</script>
+{% endblock %}
